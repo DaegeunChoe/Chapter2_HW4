@@ -3,7 +3,7 @@
 #include "Book.h"
 
 void BookManager::addBook(const std::string& title, const std::string& author) {
-    books.push_back(Book(title, author)); // push_back 사용
+    books.push_back(Book(books.size(), title, author)); // push_back 사용
     std::cout << "책이 추가되었습니다: " << books.back() << std::endl;
 }
 
@@ -31,13 +31,14 @@ std::vector<BookQuery> BookManager::findByAuthor(const std::string& query) {
 
 bool BookManager::borrowBook(int index)
 {
-    if (books[index].stock > 0) {
-        books[index].stock--;
-        return true;
-    }
-    else {
-        return false;
-    }
+    //if (books[index].stock > 0) {
+    //    books[index].stock--;
+    //    return true;
+    //}
+    //else {
+    //    return false;
+    //}
+    return false;
 }
 
 void BookManager::returnBook(int index)

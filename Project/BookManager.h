@@ -1,4 +1,5 @@
 #include <vector>
+#include <unordered_map>
 #include <string>
 #include "Book.h"
 
@@ -44,4 +45,5 @@ public:
 
 private:
     std::vector<Book> books; // 책 목록 저장
+    std::unordered_map<Book::BookID, int> stocks; // 책 재고 관리
 };
