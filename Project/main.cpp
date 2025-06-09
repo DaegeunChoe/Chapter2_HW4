@@ -51,7 +51,7 @@ int main() {
             cout << "찾을 책 제목: ";
             cin.ignore();
             getline(cin, query);
-            vector<Book*> result = manager.findBookByTitle(query);
+            vector<Book*> result = manager.findByTitle(query);
             if (result.empty()) {
                 cout << "검색 결과가 없습니다." << endl;
             }
@@ -66,7 +66,7 @@ int main() {
             cout << "찾을 저자 이름: ";
             cin.ignore();
             getline(cin, query);
-            vector<Book*> result = manager.findBookByAuthor(query);
+            vector<Book*> result = manager.findByAuthor(query);
             if (result.empty()) {
                 cout << "검색 결과가 없습니다." << endl;
             }

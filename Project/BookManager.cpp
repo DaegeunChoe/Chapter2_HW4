@@ -7,7 +7,7 @@ void BookManager::addBook(const std::string& title, const std::string& author) {
     std::cout << "책이 추가되었습니다: " << books.back() << std::endl;
 }
 
-std::vector<Book*> BookManager::findBookByTitle(const std::string& query) {
+std::vector<Book*> BookManager::findByTitle(const std::string& query) {
     std::vector<Book*> result;
     for (auto& book : books) {
         if (book.title.find(query) != std::string::npos) {
@@ -17,7 +17,7 @@ std::vector<Book*> BookManager::findBookByTitle(const std::string& query) {
     return result;
 }
 
-std::vector<Book*> BookManager::findBookByAuthor(const std::string& query) {
+std::vector<Book*> BookManager::findByAuthor(const std::string& query) {
     std::vector<Book*> result;
     for (auto& book : books) {
         if (book.author.find(query) != std::string::npos) {
