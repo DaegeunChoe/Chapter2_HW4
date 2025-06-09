@@ -5,17 +5,17 @@
 
 using namespace std; // namespace std 사용
 
-void find(int choice, BookManager& manager, vector<Book*>& result) {
+void find(int choice, BookManager& manager, vector<BookQuery>& results) {
 
     string query;
     cout << "찾을 책 제목: ";
     cin.ignore();
     getline(cin, query);
     if (choice == 1) {
-        result = manager.findByTitle(query);
+        results = manager.findByTitle(query);
     }
     else {
-        result = manager.findByAuthor(query);
+        results = manager.findByAuthor(query);
     }
 }
 
@@ -63,14 +63,14 @@ int main() {
         }
         else if (choice == 3) {
             // 검색
-            vector<Book*> result;
+            vector<BookQuery> results;
             while (true) {
                 cout << " - 1. 책 제목으로 검색" << endl;
                 cout << " - 2. 저자 이름으로 검색" << endl;
                 cout << "선택: ";
                 cin >> choice;
                 if (choice == 1 || choice == 2) {
-                    find(choice, manager, result);
+                    find(choice, manager, results);
                     break;
                 }
                 else {
@@ -78,17 +78,61 @@ int main() {
                     continue;
                 }
             }
-            if (result.empty()) {
+            if (results.empty()) {
                 cout << "검색 결과가 없습니다." << endl;
             }
             else {
-                for (Book* book : result) {
-                    cout << "- " << *book << endl;
+                for (auto& result : results) {
+                    cout << "- " << *(result.book) << endl;
                 }
             }
         }
         else if (choice == 4) {
             // 반출
+            vector<BookQuery> results;
+            while (true) {
+                cout << " - 1. 책 제목으로 검색" << endl;
+                cout << " - 2. 저자 이름으로 검색" << endl;
+                cout << "선택: ";
+                cin >> choice;
+                if (choice == 1 || choice == 2) {
+                    find(choice, manager, results);
+                    break;
+                }
+                else {
+                    cout << "잘못된 입력입니다. 다시 시도하세요." << endl;
+                    continue;
+                }
+            }
+            if (results.empty()) {
+                cout << "검색 결과가 없습니다." << endl;
+            }
+            else {
+                for (int n = 0; n < results.size(); n++) {
+                    cout << " [" << (n+1) << "] " << *(results[n].book) << endl;
+                }
+                cout << " [-1] 취소" << endl;
+                while (true) {
+                    cout << "빌릴 책 선택: ";
+                    cin >> choice;
+                    if (choice == -1) {
+                        break;
+                    }
+                    else if (choice <= 0 || choice > results.size()) {
+                        cout << "올바른 번호를 입력해주세요." << endl;
+                        continue;
+                    }
+                    else {
+                        if (manager.borrowBook(results[choice - 1].index)) {
+                            cout << "책 [" << results[choice - 1].book->title << "] 을/를 반출했습니다." << endl;
+                        }
+                        else {
+                            cout << "대여할 수 없습니다. (책이 부족합니다)" << endl;
+                        }
+                        break;
+                    }
+                }
+            }
         }
         else if (choice == 5) {
             // 반입

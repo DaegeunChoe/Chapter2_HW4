@@ -7,24 +7,41 @@ void BookManager::addBook(const std::string& title, const std::string& author) {
     std::cout << "책이 추가되었습니다: " << books.back() << std::endl;
 }
 
-std::vector<Book*> BookManager::findByTitle(const std::string& query) {
-    std::vector<Book*> result;
-    for (auto& book : books) {
-        if (book.title.find(query) != std::string::npos) {
-            result.push_back(&book);
+std::vector<BookQuery> BookManager::findByTitle(const std::string& query) {
+    std::vector<BookQuery> result;
+    for (int n = 0; n < books.size(); n++)
+    {
+        if (books[n].title.find(query) != std::string::npos) {
+            result.emplace_back(&books[n], n);
         }
     }
     return result;
 }
 
-std::vector<Book*> BookManager::findByAuthor(const std::string& query) {
-    std::vector<Book*> result;
-    for (auto& book : books) {
-        if (book.author.find(query) != std::string::npos) {
-            result.push_back(&book);
+std::vector<BookQuery> BookManager::findByAuthor(const std::string& query) {
+    std::vector<BookQuery> result;
+    for (int n = 0; n < books.size(); n++)
+    {
+        if (books[n].author.find(query) != std::string::npos) {
+            result.emplace_back(&books[n], n);
         }
     }
     return result;
+}
+
+bool BookManager::borrowBook(int index)
+{
+    if (books[index].stock > 0) {
+        books[index].stock--;
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+void BookManager::returnBook(int index)
+{
 }
 
 void BookManager::displayAllBooks() const {
