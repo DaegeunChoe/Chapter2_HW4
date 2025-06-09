@@ -3,7 +3,10 @@
 #include "Book.h"
 
 void BookManager::addBook(const std::string& title, const std::string& author) {
-    books.push_back(Book(books.size(), title, author)); // push_back 사용
+    Book::BookID newID = books.size();
+    books.push_back(Book(newID, title, author)); // push_back 사용
+    currentStocks[newID] = 3;
+    maxStocks[newID] = 3;
     std::cout << "책이 추가되었습니다: " << books.back() << std::endl;
 }
 
@@ -31,18 +34,41 @@ std::vector<BookQuery> BookManager::findByAuthor(const std::string& query) {
 
 bool BookManager::borrowBook(int index)
 {
-    //if (books[index].stock > 0) {
-    //    books[index].stock--;
-    //    return true;
-    //}
-    //else {
-    //    return false;
-    //}
+    Book::BookID id = books[index].id;
+    if (currentStocks[id] > 0) {
+        currentStocks[id] -= 1;
+        return true;
+    }
+    else {
+        return false;
+    }
     return false;
 }
 
 void BookManager::returnBook(int index)
 {
+    Book::BookID id = books[index].id;
+    if (currentStocks[id] < maxStocks[id]) {
+        currentStocks[id] += 1;
+    }
+}
+
+std::vector<BookQuery> BookManager::GetBorrowedBooks()
+{
+    std::vector<BookQuery> result;
+    for (int n = 0; n < books.size(); n++)
+    {
+        Book::BookID id = books[n].id;
+        if (currentStocks[id] < maxStocks[id]) {
+            result.emplace_back(&books[n], n);
+        }
+    }
+    return result;
+}
+
+int BookManager::GetStockByIndex(int index)
+{
+    return currentStocks[books[index].id];
 }
 
 void BookManager::displayAllBooks() const {

@@ -109,11 +109,12 @@ int main() {
             }
             else {
                 for (int n = 0; n < results.size(); n++) {
-                    cout << " [" << (n+1) << "] " << *(results[n].book) << endl;
+                    int stock = manager.GetStockByIndex(results[n].index);
+                    cout << " [" << (n+1) << "] " << *(results[n].book) << " (재고: " << stock << ")" << endl;
                 }
                 cout << " [-1] 취소" << endl;
                 while (true) {
-                    cout << "빌릴 책 선택: ";
+                    cout << " 선택: ";
                     cin >> choice;
                     if (choice == -1) {
                         break;
@@ -136,6 +137,32 @@ int main() {
         }
         else if (choice == 5) {
             // 반입
+            std::vector<BookQuery> results = manager.GetBorrowedBooks();
+            if (results.empty()) {
+                cout << "반입할 책이 없습니다." << endl;
+                continue;
+            }
+            cout << "반입할 책을 선택해주세요." << endl;
+            for (int n = 0; n < results.size(); n++) {
+                cout << " [" << (n + 1) << "] " << *(results[n].book) << endl;
+            }
+            cout << " [-1] 취소" << endl;
+            while (true) {
+                cout << "선택: ";
+                cin >> choice;
+                if (choice == -1) {
+                    break;
+                }
+                else if (choice <= 0 || choice > results.size()) {
+                    cout << "올바른 번호를 입력해주세요." << endl;
+                    continue;
+                }
+                else {
+                    manager.returnBook(results[choice - 1].index);
+                    cout << "책 [" << results[choice - 1].book->title << "] 을/를 반입했습니다." << endl;
+                    break;
+                }
+            }
         }
         else if (choice == 6) {
             // 3번 선택: 종료
