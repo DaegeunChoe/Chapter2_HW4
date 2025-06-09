@@ -1,18 +1,9 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "Book.h"
 
 using namespace std; // namespace std 사용
-
-class Book {
-public:
-    string title;
-    string author;
-
-    Book(const string& title, const string& author)
-        : title(title), author(author) {
-    }
-};
 
 class BookManager {
 private:
@@ -22,7 +13,7 @@ public:
     // 책 추가 메서드
     void addBook(const string& title, const string& author) {
         books.push_back(Book(title, author)); // push_back 사용
-        cout << "책이 추가되었습니다: " << title << " by " << author << endl;
+        cout << "책이 추가되었습니다: " << books.back() << endl;
     }
 
     // 모든 책 출력 메서드
@@ -34,7 +25,7 @@ public:
 
         cout << "현재 도서 목록:" << endl;
         for (size_t i = 0; i < books.size(); i++) { // 일반적인 for문 사용
-            cout << "- " << books[i].title << " by " << books[i].author << endl;
+            cout << "- " << books[i] << endl;
         }
     }
 };
