@@ -5,6 +5,20 @@
 
 using namespace std; // namespace std 사용
 
+void find(int choice, BookManager& manager, vector<Book*>& result) {
+
+    string query;
+    cout << "찾을 책 제목: ";
+    cin.ignore();
+    getline(cin, query);
+    if (choice == 1) {
+        result = manager.findByTitle(query);
+    }
+    else {
+        result = manager.findByAuthor(query);
+    }
+}
+
 int main() {
     BookManager manager;
 
@@ -22,9 +36,10 @@ int main() {
         cout << "\n도서관 관리 프로그램" << endl;
         cout << "1. 책 추가" << endl; // 책 정보를 입력받아 책 목록에 추가
         cout << "2. 모든 책 출력" << endl; // 현재 책 목록에 있는 모든 책 출력
-        cout << "3. 책 이름으로 검색" << endl;
-        cout << "4. 저자 이름으로 검색" << endl;
-        cout << "5. 종료" << endl; // 프로그램 종료
+        cout << "3. 도서 검색" << endl;
+        cout << "4. 도서 반출(대여 해줄 때)" << endl;
+        cout << "5. 도서 반입(반납 받을 때)" << endl;
+        cout << "6. 종료" << endl; // 프로그램 종료
         cout << "선택: ";
 
         int choice; // 사용자의 메뉴 선택을 저장
@@ -47,11 +62,22 @@ int main() {
             manager.displayAllBooks();
         }
         else if (choice == 3) {
-            string query;
-            cout << "찾을 책 제목: ";
-            cin.ignore();
-            getline(cin, query);
-            vector<Book*> result = manager.findByTitle(query);
+            // 검색
+            vector<Book*> result;
+            while (true) {
+                cout << " - 1. 책 제목으로 검색" << endl;
+                cout << " - 2. 저자 이름으로 검색" << endl;
+                cout << "선택: ";
+                cin >> choice;
+                if (choice == 1 || choice == 2) {
+                    find(choice, manager, result);
+                    break;
+                }
+                else {
+                    cout << "잘못된 입력입니다. 다시 시도하세요." << endl;
+                    continue;
+                }
+            }
             if (result.empty()) {
                 cout << "검색 결과가 없습니다." << endl;
             }
@@ -62,21 +88,12 @@ int main() {
             }
         }
         else if (choice == 4) {
-            string query;
-            cout << "찾을 저자 이름: ";
-            cin.ignore();
-            getline(cin, query);
-            vector<Book*> result = manager.findByAuthor(query);
-            if (result.empty()) {
-                cout << "검색 결과가 없습니다." << endl;
-            }
-            else {
-                for (Book* book : result) {
-                    cout << "- " << *book << endl;
-                }
-            }
+            // 반출
         }
         else if (choice == 5) {
+            // 반입
+        }
+        else if (choice == 6) {
             // 3번 선택: 종료
             // 프로그램을 종료하고 사용자에게 메시지를 출력합니다.
             cout << "프로그램을 종료합니다." << endl;
