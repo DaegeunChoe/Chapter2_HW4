@@ -2,14 +2,32 @@
 #include "BookManager.h"
 #include "Book.h"
 
-void BookManager::addBook(const std::string& title, const std::string& author)
-{
+void BookManager::addBook(const std::string& title, const std::string& author) {
     books.push_back(Book(title, author)); // push_back 사용
     std::cout << "책이 추가되었습니다: " << books.back() << std::endl;
 }
 
-void BookManager::displayAllBooks() const
-{
+std::vector<Book*> BookManager::findBookByTitle(const std::string& query) {
+    std::vector<Book*> result;
+    for (auto& book : books) {
+        if (book.title.find(query) != std::string::npos) {
+            result.push_back(&book);
+        }
+    }
+    return result;
+}
+
+std::vector<Book*> BookManager::findBookByAuthor(const std::string& query) {
+    std::vector<Book*> result;
+    for (auto& book : books) {
+        if (book.author.find(query) != std::string::npos) {
+            result.push_back(&book);
+        }
+    }
+    return result;
+}
+
+void BookManager::displayAllBooks() const {
     if (books.empty()) {
         std::cout << "현재 등록된 책이 없습니다." << std::endl;
         return;

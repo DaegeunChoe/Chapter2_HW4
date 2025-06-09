@@ -127,6 +127,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BookManager.cpp" />
+    <ClCompile Include="BookManager.h" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

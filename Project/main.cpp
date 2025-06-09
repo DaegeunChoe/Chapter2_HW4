@@ -8,13 +8,23 @@ using namespace std; // namespace std 사용
 int main() {
     BookManager manager;
 
+    // 기본 소장 도서
+    manager.addBook("언리얼", "에픽게임즈");
+    manager.addBook("소설1", "Alice");
+    manager.addBook("소설2", "Alice");
+    manager.addBook("수필", "Bob");
+    manager.addBook("논문", "Bob");
+    manager.addBook("이상한소설", "Bob");
+
     // 도서관 관리 프로그램의 기본 메뉴를 반복적으로 출력하여 사용자 입력을 처리합니다.
     // 프로그램 종료를 선택하기 전까지 계속 동작합니다.
     while (true) {
         cout << "\n도서관 관리 프로그램" << endl;
         cout << "1. 책 추가" << endl; // 책 정보를 입력받아 책 목록에 추가
         cout << "2. 모든 책 출력" << endl; // 현재 책 목록에 있는 모든 책 출력
-        cout << "3. 종료" << endl; // 프로그램 종료
+        cout << "3. 책 이름으로 검색" << endl;
+        cout << "4. 저자 이름으로 검색" << endl;
+        cout << "5. 종료" << endl; // 프로그램 종료
         cout << "선택: ";
 
         int choice; // 사용자의 메뉴 선택을 저장
@@ -37,6 +47,36 @@ int main() {
             manager.displayAllBooks();
         }
         else if (choice == 3) {
+            string query;
+            cout << "찾을 책 제목: ";
+            cin.ignore();
+            getline(cin, query);
+            vector<Book*> result = manager.findBookByTitle(query);
+            if (result.empty()) {
+                cout << "검색 결과가 없습니다." << endl;
+            }
+            else {
+                for (Book* book : result) {
+                    cout << "- " << *book << endl;
+                }
+            }
+        }
+        else if (choice == 4) {
+            string query;
+            cout << "찾을 저자 이름: ";
+            cin.ignore();
+            getline(cin, query);
+            vector<Book*> result = manager.findBookByAuthor(query);
+            if (result.empty()) {
+                cout << "검색 결과가 없습니다." << endl;
+            }
+            else {
+                for (Book* book : result) {
+                    cout << "- " << *book << endl;
+                }
+            }
+        }
+        else if (choice == 5) {
             // 3번 선택: 종료
             // 프로그램을 종료하고 사용자에게 메시지를 출력합니다.
             cout << "프로그램을 종료합니다." << endl;
